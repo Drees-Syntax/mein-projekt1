@@ -42,5 +42,5 @@ jobs:
         
       - name: Paket bauen
         run : |
-          mkdir —p build 
-          python —m zipfile —c build/app.zip src / 
+          mkdir -p build 
+          python -m zipfile -c build/app.zip src / 
