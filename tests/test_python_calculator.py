@@ -2,47 +2,65 @@
 
 # define functions
 def add(x, y):
-   """This function adds two numbers"""
+    """Return the sum of two numbers."""
+    return x + y
 
-   return x + y
 
 def subtract(x, y):
-   """This function subtracts two numbers"""
+    """Return the difference of two numbers."""
+    return x - y
 
-   return x - y
 
 def multiply(x, y):
-   """This function multiplies two numbers"""
+    """Return the product of two numbers."""
+    return x * y
 
-   return x * y
 
 def divide(x, y):
-   """This function divides two numbers"""
+    """Return the quotient of two numbers."""
+    if y == 0:
+        raise ZeroDivisionError("Cannot divide by zero.")
+    return x / y
 
-   return x / y
 
-# take input from the user
-print("Select operation.")
-print("1.Add")
-print("2.Subtract")
-print("3.Multiply")
-print("4.Divide")
+def calculate(choice, num1, num2):
+    """Perform the selected operation."""
+    operations = {
+        1: ("+", add),
+        2: ("-", subtract),
+        3: ("*", multiply),
+        4: ("/", divide),
+    }
 
-choice = input("Enter choice(1/2/3/4):")
+    if choice not in operations:
+        raise ValueError("Invalid operation selected.")
 
-num1 = int(input("Enter first number: "))
-num2 = int(input("Enter second number: "))
+    symbol, func = operations[choice]
+    result = func(num1, num2)
+    print(f"{num1} {symbol} {num2} = {result}")
+    return result
 
-if choice == '1':
-   print(num1,"+",num2,"=", add(num1,num2))
 
-elif choice == '2':
-   print(num1,"-",num2,"=", subtract(num1,num2))
+def main():
+    print("Select operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
 
-elif choice == '3':
-   print(num1,"*",num2,"=", multiply(num1,num2))
+    try:
+        choice = int(input("Enter choice (1/2/3/4): "))
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+        calculate(choice, num1, num2)
 
-elif choice == '4':
-   print(num1,"/",num2,"=", divide(num1,num2))
-else:
-   print("Invalid input")
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+    except ZeroDivisionError as e:
+        print(e)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
