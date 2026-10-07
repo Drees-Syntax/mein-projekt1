@@ -20,6 +20,12 @@ jobs:
         with:
           ${{ env.PYTHON_VERSION }}
 
+      - name: Pip-Cache
+        uses: actions/cache@v4
+        with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }} restore-keys: ${{ runner.os }}-pip
+
       - name: Dependencies installieren
         run: python -m pip install -r requirements.txt
 
@@ -28,12 +34,6 @@ jobs:
 
       - name: Python-Version anzeigen
         run: python --version
-        
-      - name: Pip-Cache
-        uses: actions/cache@v4
-        with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }} restore-keys: ${{ runner.os }}-pip
         
       - name: Paket bauen
         run : |
