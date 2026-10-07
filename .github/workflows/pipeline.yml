@@ -1,11 +1,12 @@
 name: mein-projekt1
 
 on:
+  push:
+  pull_request:
+
 env:
-   PYTHON_VERSION: "3.12"
-   APP_ENV: staging
-push:
-pull_request:
+  PYTHON_VERSION: "3.12"
+  APP_ENV: staging
 
 jobs:
   test:
@@ -18,16 +19,20 @@ jobs:
       - name: Python installieren
         uses: actions/setup-python@v5
         with:
-          ${{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Pip-Cache
         uses: actions/cache@v4
         with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }} restore-keys: ${{ runner.os }}-pip
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Dependencies installieren
-        run: python -m pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Tests ausführen
         run: python -m pytest -v
